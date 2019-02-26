@@ -90,7 +90,10 @@ if [ "$run_server" = "python" -a -n "$GALAXY_RUN_ALL" ]; then
         fi
     done
 else
-    echo "Executing: $run_server $server_args"
+    dt=$(date +%y.%m.%d-%H_%M)
+    #server_args="
+    echo "Now Executing: $run_server $server_args"
     # args are properly quoted so use eval
-    eval $run_server $server_args
+    #eval $run_server $server_args
+    eval $run_server $server_args 2>&1 | tee run-$dt.log
 fi
