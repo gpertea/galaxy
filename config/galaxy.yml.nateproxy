@@ -17,7 +17,6 @@
 # Config hackers are encouraged to check there before asking for help.
 # 
 uwsgi:
-
   # The address and port on which to listen.  By default, only listen to
   # localhost (galaxy will not be accessible over the network).  Use
   # ':8080' to listen on all available network interfaces.
@@ -96,6 +95,33 @@ uwsgi:
 
   # Ensure application threads will run if `threads` is unset.
   enable-threads: true
+
+  #--------------- Nate internal proxy mod ----------------
+  galaxy-proxy-sessions: database/session_map.sqlite
+
+  #http-websockets: true
+  http-raw-body: true
+  python-import: lib/galaxy/web/proxy/uwsgi/uwsgi_proxy_funcs.py
+
+  route: ^/proxy/.*$ goto:proxy
+  route: .* goto:end
+  # YAML reparsing in application chokes on this
+  #route: .* last:
+
+  route-label: proxy
+  route-run: rpcvar:TARGET_HOST dynamic_proxy_mapper ${HTTP_HOST} ${cookie[galaxysession]}
+  route-run: log:PROXYING ${HTTP_HOST} TO ${TARGET_HOST}
+  route-run: httpdumb:${TARGET_HOST}
+
+  route-label: end
+  route-run: log:NOT_PROXYING
+  
+  # Alternatively tried this and it proxies but still exhibits the problem
+  #route-uri: ^/proxy/.*$ rpcvar:TARGET_HOST dynamic_proxy_mapper ${HTTP_HOST} ${cookie[galaxysession]}
+  #route-uri: ^/proxy/.*$ log:PROXYING ${HTTP_HOST} to ${TARGET_HOST}
+  #route-uri: ^/proxy/.*$ httpdumb:${TARGET_HOST}
+  
+  #--------------------------------------------------------
 
 galaxy:
 
@@ -886,33 +912,7 @@ galaxy:
   # NodeJS implementation, alongside a new Golang single-binary-no-
   # dependencies version. Valid values are (node, golang)
   #dynamic_proxy: node
-  dynamic_proxy: uwsgi
-  
-  #--------------- Nate internal proxy mod ----------------
-  galaxy-proxy-sessions: database/session_map.sqlite
-  #http-websockets: true
-  http-raw-body: true
-  python-import: lib/galaxy/web/proxy/uwsgi/uwsgi_proxy_funcs.py
-
-  route: ^/proxy/.*$ goto:proxy
-  route: .* goto:end
-  # YAML reparsing in application chokes on this
-  #route: .* last:
-
-  route-label: proxy
-  route-run: rpcvar:TARGET_HOST dynamic_proxy_mapper ${HTTP_HOST} ${cookie[galaxysession]}
-  route-run: log:PROXYING ${HTTP_HOST} TO ${TARGET_HOST}
-  route-run: httpdumb:${TARGET_HOST}
-
-  route-label: end
-  route-run: log:NOT_PROXYING_AT_ALL
-  
-  # Alternatively tried this and it proxies but still exhibits the problem
-  #route-uri: ^/proxy/.*$ rpcvar:TARGET_HOST dynamic_proxy_mapper ${HTTP_HOST} ${cookie[galaxysession]}
-  #route-uri: ^/proxy/.*$ log:PROXYING ${HTTP_HOST} to ${TARGET_HOST}
-  #route-uri: ^/proxy/.*$ httpdumb:${TARGET_HOST}
-  
-  #--------------------------------------------------------
+  dynamic_proxy: uwsgi 
   
   # The NodeJS dynamic proxy can use an SQLite database or a JSON file
   # for IPC, set that here.
