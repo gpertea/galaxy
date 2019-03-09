@@ -29,6 +29,11 @@ uwsgi:
   # recommend at least 16384.
   buffer-size: 16384
 
+
+  ############ prefix log entries with timestamp:
+  logdate: true
+  logformat-strftime: true
+  
   # Number of web server (worker) processes to fork after the
   # application has loaded. If this is set to greater than 1, thunder-
   # lock likely should be enabled below.
@@ -39,7 +44,7 @@ uwsgi:
 
   # Number of threads for serving static content and handling internal
   # routing requests.
-  offload-threads: 2
+  offload-threads: 1
 
   # Mapping to serve style content.
   static-map: /static/style=static/style/blue
@@ -114,7 +119,7 @@ uwsgi:
   route-run: httpdumb:${TARGET_HOST}
 
   route-label: end
-  route-run: log:NOT_PROXYING
+  route-run: log:DIRECT_NOPROXY
   
   # Alternatively tried this and it proxies but still exhibits the problem
   #route-uri: ^/proxy/.*$ rpcvar:TARGET_HOST dynamic_proxy_mapper ${HTTP_HOST} ${cookie[galaxysession]}

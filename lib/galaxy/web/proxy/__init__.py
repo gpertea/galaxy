@@ -90,6 +90,7 @@ class ProxyManager(object):
                 ':%s' % port if port else '',
                 proxy_prefix
             )
+            log.info('[init.py DBG] Routing proxy url: %s' % proxy_url)
         elif not self.dynamic_proxy_external_proxy:
             proxy_url = '%s://%s:%d' % (scheme, host, self.dynamic_proxy_bind_port)
         else:
