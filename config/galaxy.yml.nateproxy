@@ -40,11 +40,11 @@ uwsgi:
   processes: 1
 
   # Number of threads for each web server process.
-  threads: 4
+  threads: 1
 
   # Number of threads for serving static content and handling internal
   # routing requests.
-  offload-threads: 1
+  offload-threads: 2
 
   # Mapping to serve style content.
   static-map: /static/style=static/style/blue
@@ -727,7 +727,7 @@ galaxy:
   # Docker host VM. This can found by running ifconfig and using the IP
   # address of the network vboxnet0.
   #galaxy_infrastructure_url: 'http://localhost:8080'
-  galaxy_infrastructure_url: 'http://maestro.peabody.jhu.edu:8192'
+  galaxy_infrastructure_url: 'http://gdebsrv.lan:8192'
 
   # If the above URL cannot be determined ahead of time in dynamic
   # environments but the port which should be used to access Galaxy can
