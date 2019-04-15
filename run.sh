@@ -92,9 +92,9 @@ if [ "$run_server" = "python" -a -n "$GALAXY_RUN_ALL" ]; then
 else
     dt=$(date +%y.%m.%d-%H_%M)
     #server_args="
-    echo ">>>>>>>>>>>>>>>>>>>>>>>>>>> Now executing: $run_server $server_args" > run-$dt.epoll.log
+    echo "[[[>>>>>>>>> Now executing: $run_server $server_args" > run-$dt.log
     # args are properly quoted so use eval
     ##eval $run_server $server_args
-    ##eval $run_server $server_args 2>&1 | tee -a run-$dt.log
-    strace -ff -o strace_epoll -q -k -s 72 -e fork,socket,bind,connect,read,epoll_ctl,epoll_wait $run_server $server_args 2>&1 | tee run-$dt.epoll.log
+    eval $run_server $server_args 2>&1 | tee -a run-$dt.log
+    #strace -ff -o strace_calls -t -q -k -s 72 -e clone,socket,bind,connect,accept,epoll_ctl,epoll_wait $run_server $server_args 2>&1 | tee run-$dt.epoll.log
 fi
