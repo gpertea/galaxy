@@ -95,6 +95,6 @@ else
     echo "[[[>>>>>>>>> Now executing: $run_server $server_args" > run-$dt.log
     # args are properly quoted so use eval
     ##eval $run_server $server_args
-    eval $run_server $server_args 2>&1 | tee -a run-$dt.log
-    #strace -f -D -t -q -s 72 -k -e trace %net,accept4,send,epoll_ctl,epoll_wait $run_server $server_args 2>&1 | tee run-$dt.strace.log
+    #eval $run_server $server_args 2>&1 | tee -a run-$dt.log
+    strace -f -D -t -q -s 72 -k -e trace=socket,socketpair,epoll_ctl $run_server $server_args 2>&1 | tee run-$dt.strace_socketpair.log
 fi
