@@ -96,5 +96,5 @@ else
     # args are properly quoted so use eval
     ##eval $run_server $server_args
     eval $run_server $server_args 2>&1 | tee -a run-$dt.log
-    #strace -ff -o strace_calls -t -q -k -s 72 -e clone,socket,bind,connect,accept,epoll_ctl,epoll_wait $run_server $server_args 2>&1 | tee run-$dt.epoll.log
+    #strace -f -D -t -q -s 72 -k -e %network,accept4,send,write $run_server $server_args 2>&1 | tee run-$dt.strace.log
 fi
