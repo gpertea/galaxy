@@ -6,9 +6,10 @@
 # appropriate `apt-get/pip install` statements.
 ---
 -
+    image: galaxy-jupyter
+    description: |
+        The Jupyter notebook for Galaxy
+-
     image: bgruening/docker-jupyter-notebook
     description: |
-        The Jupyter notebook is the next iteration of IPython, allowing
-        analysis in many different languages. This image features the Python,
-        R, Julia, Haskell, Bash kernels and many scientific analysis stacks for
-        each.
+        The Jupyter notebook is the next iteration of IPytho
