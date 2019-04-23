@@ -934,7 +934,7 @@ galaxy:
 
   # Enable verbose debugging of Galaxy-managed dynamic proxy.
   #dynamic_proxy_debug: false
-  dynamic_proxy_debug: true
+  dynamic_proxy_debug: false
 
   # The dynamic proxy is proxied by an external proxy (e.g. apache
   # frontend to nodejs to wrap connections in SSL).
@@ -975,6 +975,7 @@ galaxy:
   # here: https://docs.python.org/library/logging.html#logging-levels A
   # custom debug level of "TRACE" is available for even more verbosity.
   #log_level: DEBUG
+  log_level: WARNING
 
   # Controls where and how the server logs messages. If unset, the
   # default is to log all messages to standard output at the level
