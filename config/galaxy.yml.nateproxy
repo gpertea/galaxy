@@ -37,10 +37,10 @@ uwsgi:
   # Number of web server (worker) processes to fork after the
   # application has loaded. If this is set to greater than 1, thunder-
   # lock likely should be enabled below.
-  processes: 1
+  processes: 2
 
   # Number of threads for each web server process.
-  threads: 1
+  threads: 2
 
   # Number of threads for serving static content and handling internal
   # routing requests.
@@ -727,7 +727,7 @@ galaxy:
   # Docker host VM. This can found by running ifconfig and using the IP
   # address of the network vboxnet0.
   #galaxy_infrastructure_url: 'http://localhost:8080'
-  galaxy_infrastructure_url: 'http://gdebsrv.lan:8192'
+  galaxy_infrastructure_url: 'http://maestro.peabody.jhu.edu:8192'
 
   # If the above URL cannot be determined ahead of time in dynamic
   # environments but the port which should be used to access Galaxy can
